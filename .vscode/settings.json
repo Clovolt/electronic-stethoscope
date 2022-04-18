@@ -8,11 +8,12 @@
         "interface/ftdi/esp32_devkitj_v1.cfg",
         "target/esp32s2.cfg"
     ],
-    "idf.portWin": "COM3",
+    "idf.portWin": "COM4",
     "idf.pythonBinPathWin": "C:/Users/ensyl/.espressif/python_env/idf4.3_py3.8_env/Scripts/python.exe",
     "idf.toolsPathWin": "C:\\Users\\ensyl\\.espressif",
     "files.associations": {
         "sockets.h": "c",
-        "esp_netif.h": "c"
+        "esp_netif.h": "c",
+        "i2s.h": "c"
     }
 }
