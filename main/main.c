@@ -24,7 +24,7 @@
 #endif
 
 #define PORT CONFIG_EXAMPLE_PORT
-#define SAMPLE_SIZE (16 * 1024)
+#define SAMPLE_SIZE (16*8)
 
 static const char *TAG = "data";
 // static const char payload[] = "-5";
@@ -81,7 +81,9 @@ static void tcp_client_task(void *pvParameters)
         {
 
             i2s_read(i2s_num, (char *)i2s_readraw_buff, SAMPLE_SIZE, &bytes_read, 100);
-            int err = send(sock, i2s_readraw_buff, bytes_read, 0);
+            //printf("%d", sizeof(i2s_readraw_buff));
+
+            int err = send(sock, i2s_readraw_buff, SAMPLE_SIZE, 0);
 
             if (err < 0)
             {
@@ -127,7 +129,7 @@ void app_main(void)
         .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
         .communication_format = I2S_COMM_FORMAT_STAND_I2S,
         .dma_buf_count = 8,
-        .dma_buf_len = 200, // 64
+        .dma_buf_len = 128, // 64
         .use_apll = false,
         .intr_alloc_flags = ESP_INTR_FLAG_LEVEL2 // Interrupt level 1, default 0
     };
@@ -145,12 +147,6 @@ void app_main(void)
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     ESP_ERROR_CHECK(example_connect());
-    /*
-    while (1)
-    {
-        i2s_read(i2s_num, (char *)i2s_readraw_buff, SAMPLE_SIZE, &bytes_read, 100);
-        printf("%d \n", i2s_readraw_buff[0]);
-    }
-    */
+    
     xTaskCreate(tcp_client_task, "tcp_client", 4096, NULL, 5, NULL);
 }
